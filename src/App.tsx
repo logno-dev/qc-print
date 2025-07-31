@@ -36,11 +36,25 @@ function App() {
           
           if (columnB || columnC) {
             processedRows.push({
-              sequenceNumber: processedRows.length + 1,
+              sequenceNumber: 0, // Will be assigned after sorting
               columnB,
               columnC
             })
           }
+        })
+
+        // Sort alphabetically by column C first, then by column B
+        processedRows.sort((a, b) => {
+          const columnCCompare = a.columnC.localeCompare(b.columnC)
+          if (columnCCompare !== 0) {
+            return columnCCompare
+          }
+          return a.columnB.localeCompare(b.columnB)
+        })
+
+        // Assign sequence numbers after sorting
+        processedRows.forEach((row, index) => {
+          row.sequenceNumber = index + 1
         })
 
         resolve(processedRows)
